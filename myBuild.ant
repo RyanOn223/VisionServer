@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<project default="create_jar" name="Create Runnable Jar for Project helloJar2">
+
+    <taskdef resource="net/sf/antcontrib/antcontrib.properties">
+	  <classpath>
+	    <pathelement location="C:/Users/develoer/wpilib/java/current/ant/ant-contrib.jar"/>
+	  </classpath>
+	</taskdef>
+	
+	<property file="build.properties"/>
+	
+	
+	
+	
+	<path id="build.classpath">
+	    <fileset dir="${basedir}/lib">
+	        <include name="**/*.jar"/>
+	    </fileset>
+	</path>
+
+	
+	
+	<!-- Create the jar file -->	
+
+    <target name="create_jar" depends = "compile">
+    	
+    	<zip destfile="${basedir}/tmp.jar">
+    		<zipgroupfileset dir="lib" includes="**/*.jar"/>
+    	</zip>
+    	
+    	
+    	<if>
+    	    <available file="${basedir}/tmp.jar"/>
+    	    <then>
+    	    	<jar destfile="${jar.localpath}" filesetmanifest="mergewithoutmain">
+		            <manifest>
+		                <attribute name="Main-Class" value="${jar.mainclass}"/>
+		                <attribute name="Class-Path" value="."/>
+		            </manifest>
+		            <fileset dir="${basedir}/bin"/>
+		            <fileset dir="${basedir}/lib"/>
+		            <zipfileset excludes="META-INF/*.SF" src="${basedir}/tmp.jar"/>
+		        </jar>
+    	    </then>
+    	    
+    	    <else>
+    	     	<jar destfile="${jar.localpath}" filesetmanifest="mergewithoutmain">
+		            <manifest>
+		                <attribute name="Main-Class" value="${jar.mainclass}"/>
+		                <attribute name="Class-Path" value="."/>
+		            </manifest>
+		            <fileset dir="${basedir}/bin"/>
+		            <fileset dir="${basedir}/lib"/>
+		        </jar>
+    	    </else>
+    	</if>
+    	
+    	
+    	<delete file="${basedir}/tmp.jar"/>
+    </target>
+	
+	
+	<!-- Cleans up the old class files and jar files -->
+	<target name="clean">
+		<delete file="${jar.localpath}"/>
+		<delete dir="bin"/>
+	</target>
+	
+	
+	<!-- compiles the sorce code into class files -->
+	<target name="compile" depends="clean" >
+		<mkdir dir="bin"/>
+		<javac srcdir="src" destdir="bin" classpathref="build.classpath" debug="on" includeantruntime="yes"/>
+		<echo>Finished compiling source code</echo>
+	</target>
+	
+	
+	<!-- Runs the jar locally-->
+	<target name="run_jar" depends="create_jar">
+		<java jar="${jar.localpath}" fork="true"/>
+	</target>
+	
+		
+	<!-- Deploy the jar to the target, and configure it to run normally.  -->
+	<target name="deploy_jar" depends="create_jar, killRemote">
+		
+		<scp file="${jar.localpath}"
+			todir="${target.user}@${target.ip}:${target.dir}/${jar.name}"
+			password="${target.pass}"
+			trust="true" 
+			failonerror="true"
+			sftp="true"
+			port="${target.sshport}"/>
+		
+		<sshexec host="${target.ip}"
+			username="${target.user}"
+			password="${target.pass}"
+			port="${target.sshport}"
+			trust="true"
+			failonerror="true"
+			command="${jar.runcommand}" />
+	</target>
+	
+	
+	
+	<!-- Deploy the jar to the target, and configure it to accept a debugger connection. -->
+	<target name="debug_dep" depends="create_jar, killRemote">
+		<scp file="${jar.localpath}"
+			todir="${target.user}@${target.ip}:${target.dir}"
+			password="${target.pass}"
+			port="${target.sshport}"
+			failonerror="true"
+			trust="true" />
+		
+		<sshexec host="${target.ip}"
+			username="${target.user}"
+			password="${target.pass}"
+			trust="true"
+			port="${target.sshport}"
+			failonerror="true"
+			command="${jar.debugcommand}" />
+		
+		<echo message="Now hit the debug button to connect and start the debugging session"/>
+	</target>
+	
+	
+	<!-- Kill all instances of the remote process -->
+	<target name="killRemote">
+		<sshexec host="${target.ip}"
+					username="${target.user}"
+					password="${target.pass}"
+					trust="true"
+					port="${target.sshport}"
+					failonerror="false"
+					command="${jar.killcommand}" />
+	</target>
+	
+
+	
+
+</project>
+
+
+
+
+
+
+
+
+
+
+
