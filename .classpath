@@ -2,14 +2,14 @@
 <classpath>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-	<classpathentry kind="lib" path="lib/opencv-300.jar">
-		<attributes>
-			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="DuemmerVisionServer/lib"/>
-		</attributes>
-	</classpathentry>
 	<classpathentry kind="lib" path="lib/AdvancedX.jar" sourcepath="lib/AdvancedX-src.jar"/>
 	<classpathentry kind="lib" path="lib/microlog-logger-core-2.3.5.jar"/>
 	<classpathentry kind="lib" path="lib/NetworkTables.jar" sourcepath="C:/Users/develoer/wpilib/java/current/lib/NetworkTables-sources.jar"/>
 	<classpathentry kind="lib" path="lib/WPILib.jar"/>
+	<classpathentry kind="lib" path="lib/opencv-310.jar">
+		<attributes>
+			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="C:/usrLib"/>
+		</attributes>
+	</classpathentry>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

@@ -35,9 +35,18 @@ public class VisionAquisition
 			try
 			{
 				camera.read(currFrame);
+				
 			} catch (Exception e)
 			{
 				System.err.println("Error grabbing frame!");
+				
+				try {
+					Thread.sleep(3000);
+				} catch (InterruptedException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				
 				e.printStackTrace();
 				cameraOpen = false;
 			}
@@ -47,14 +56,15 @@ public class VisionAquisition
 	////////// Configuration variables - Set to safe defaults, and override later with AdvancedX
 
 	// address of the camera
-	private String cameraAddress = "axis-camera-223-02.frc-robot.local";
+	private String cameraAddress;
 
 	/**
 	 * Generates a new instance of the videoAquisition class
 	 */
-	public VisionAquisition() 
+	public VisionAquisition(String camAddress) 
 	{
 		System.out.println("Starting VisionAquisition...");
+		this.cameraAddress = camAddress;
 		
 		// init the executor service
 		ScheduledExecutorService sexs = Executors.newScheduledThreadPool(1);
@@ -80,6 +90,7 @@ public class VisionAquisition
 		try
 		{
 			camera.open("http://" +cameraAddress+ "/mjpg/video.mjpg");
+			//camera.open(cameraAddress);
 		} catch(Exception e)
 		{
 			System.err.println("Error opening camera! DETAILS:");

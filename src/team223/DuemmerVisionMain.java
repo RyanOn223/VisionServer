@@ -7,7 +7,6 @@ import org.opencv.core.Scalar;
 import org.opencv.imgcodecs.Imgcodecs;
 import org.opencv.imgproc.Imgproc;
 import org.usfirst.frc.team223.AdvancedX.AdvancedXManager;
-import org.usfirst.frc.team223.AdvancedX.RoboLogManagerBase;
 import org.usfirst.frc.team223.AdvancedX.vision.VisionData;
 
 /**
@@ -23,6 +22,8 @@ public class DuemmerVisionMain
 	private static VisionCommunicationServer communication;
 	
 	private static AdvancedXManager manager;
+	
+	private static String cameraAddress = "axis-camera-223-03.local";
 	
 	
 	public static void main(String[] args) 
@@ -48,11 +49,11 @@ public class DuemmerVisionMain
 //		};
 		
 		// init everything
-		aquisition = new VisionAquisition();
+		aquisition = new VisionAquisition(cameraAddress);
 		processing = new VisionProcessing();
 		
 		// optionally test
-		testFxn();
+//		testFxn();
 		
 		communication = new VisionCommunicationServer() {
 			

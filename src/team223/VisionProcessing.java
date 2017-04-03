@@ -7,8 +7,7 @@ import org.opencv.core.Core;
 import org.opencv.core.Mat;
 import org.opencv.core.MatOfPoint;
 import org.opencv.core.Point;
-import org.opencv.core.Rect;
-import org.opencv.core.Scalar;
+import org.opencv.core.Rect;import org.opencv.core.Scalar;
 import org.opencv.core.Size;
 import org.opencv.imgproc.Imgproc;
 import org.usfirst.frc.team223.AdvancedX.vision.VisionData;
@@ -28,10 +27,10 @@ import org.usfirst.frc.team223.AdvancedX.vision.VisionData;
 public class VisionProcessing 
 {
 	// Configuration constants
-	private int minHue = 0;
-	private int maxHue = 110;
+	private int minHue = 79;
+	private int maxHue = 204;
 	
-	private int minSat = 0;
+	private int minSat = 109;
 	private int maxSat = 255;
 	
 	private int minVal = 0;
