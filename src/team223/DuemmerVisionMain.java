@@ -28,8 +28,13 @@ public class DuemmerVisionMain
 	
 	public static void main(String[] args) 
 	{
+		System.out.println("starting...");
+		System.err.println("an error");
+		
 		// import the opencv DLL
 		System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
+		
+		System.out.println("after load");
 		
 //		// init the AdvancedX components
 //		RoboLogManagerBase logBase = new RoboLogManagerBase("/home/pi/223/logging", 5802, Level.TRACE);
